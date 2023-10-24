@@ -1,0 +1,27 @@
+name: Docker Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Build Docker image
+      run: docker build -t my-docker-image ./cloud/lab3
+
+    - name: Save hello.txt
+      run: |
+        docker run --rm -v $(pwd):/output my-docker-image cp /hello.txt /output/hello.txt
+
+    - name: Upload hello.txt
+      uses: actions/upload-artifact@v2
+      with:
+        name: hello-text-file
+        path: hello.txt
