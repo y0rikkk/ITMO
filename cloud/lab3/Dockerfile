@@ -6,8 +6,13 @@ RUN echo "hello" > /hello.txt
 
 RUN git config --global user.email "yarick2205@gmail.com"
 RUN git config --global user.name "y0rikkk"
+
+ARG GITHUB_TOKEN
+ENV GITHUB_TOKEN=${GITHUB_TOKEN}
+
 RUN git clone https://github.com/y0rikkk/ITMO.git /repo
 RUN cp /hello.txt /repo
-RUN cd /repo && git add hello.txt
-RUN cd /repo && git commit -m "Add hello.txt"
-RUN cd /repo && git push origin main
+WORKDIR /repo
+RUN git add hello.txt
+RUN git commit -m "Add hello.txt"
+RUN git push origin main
