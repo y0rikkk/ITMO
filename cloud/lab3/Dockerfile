@@ -8,9 +8,8 @@ RUN git config --global user.email "yarick2205@gmail.com"
 RUN git config --global user.name "y0rikkk"
 
 ARG GITHUB_TOKEN
-ENV GITHUB_TOKEN=${GITHUB_TOKEN}
 
-RUN git clone https://github.com/y0rikkk/ITMO.git /repo
+RUN git clone https://username:${GITHUB_TOKEN}@github.com/y0rikkk/ITMO.git /repo
 RUN cp /hello.txt /repo
 WORKDIR /repo
 RUN git add hello.txt
