@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - ./cloud/lab3/pushhere/
+      - ./cloud/lab3/pushhere/*
 
 jobs:
   build:
