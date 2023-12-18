@@ -34,6 +34,58 @@ IP адреса компьютеров B и С узнаем с помощью к
 ![image](https://github.com/y0rikkk/ITMO/assets/113039134/4f71133a-3237-4d44-9950-cf7b1b40eb48)
 
 Осталось ввести пароль пользователя на компьютере С и после успешного выполнения команды, файл будет скопирован с компьютера B на компьютер С.
+
+# Задание 2
+## Задание: Написать два Dockerfile – плохой и хороший. Плохой должен запускаться и работать корректно, но в нём должно быть не менее 3 “bad practices”. В хорошем Dockerfile они должны быть исправлены. В Readme описать все плохие практики из кода Dockerfile и почему они плохие, как они были исправлены в хорошем  Dockerfile, а также две плохие практики по использованию этого контейнера.
+
+Создадим директорию app с двумя Dockerfile и текстовым файлом sample.txt с текстом "hello world".
+Напишем плохой Dockerfile.bad:
+
+FROM ubuntu:latest
+
+RUN apt-get update && \
+    apt-get install -y \
+    vim
+
+USER root
+
+COPY sample.txt /root/sample.txt
+
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+
+Теперь напишем хороший Dockerfile.good:
+
+FROM ubuntu:20.04
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    vim && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+USER nobody
+
+WORKDIR /app
+
+COPY sample.txt /app/sample.txt
+
+Соберём оба контейнера:
+![image](https://github.com/y0rikkk/ITMO/assets/113039134/958523e3-8a36-4665-bea7-0c0061d1dd37)
+
+Теперь узнаем id этих контейнеров и посмотрим на их размер:
+![image](https://github.com/y0rikkk/ITMO/assets/113039134/9bf8e7ed-ffde-4d5c-a0fa-f3affdddbc54)
+
+Как мы видим, размер хорошего конетейнера меньше на 43 Мб.
+
+Убедимся, что наш файл успешно скопировался в оба контейнера:
+![image](https://github.com/y0rikkk/ITMO/assets/113039134/47e70865-4e91-4392-824f-28ccf728e86d)
+
+
+
+
+
    
 # Задание 3
 ## Задание: сделать, чтобы после пуша в ваш репозиторий автоматически собирался докер образ и результат его сборки сохранялся куда-нибудь.
