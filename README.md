@@ -42,11 +42,12 @@ IP адреса компьютеров B и С узнаем с помощью к
 
 Напишем плохой Dockerfile.bad:
 
-> FROM ubuntu:latest
+'''Dockerfile
+FROM ubuntu:latest
 
-> RUN apt-get update && \
->    apt-get install -y \
->    vim
+RUN apt-get update && \
+    apt-get install -y \
+    vim
 
 USER root
 
@@ -55,10 +56,12 @@ COPY sample.txt /root/sample.txt
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+'''
 
 
 Теперь напишем хороший Dockerfile.good:
 
+'''
 FROM ubuntu:20.04
 
 RUN apt-get update && \
@@ -72,6 +75,8 @@ USER nobody
 WORKDIR /app
 
 COPY sample.txt /app/sample.txt
+'''
+
 
 Соберём оба контейнера:
 
